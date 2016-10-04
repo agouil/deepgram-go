@@ -53,3 +53,9 @@ type GetTagsResponse struct {
 	ContentId string   `json:"contentID"`
 	Tags      []string `json:"tags"`
 }
+
+type TranscriptResponse struct {
+	ContentId           string    `json:"contentID"`
+	Paragraphs          []string  `json:"paragraphs"`
+	ParagraphStartTimes []float32 `json:"paragraphStartTimes"`
+}

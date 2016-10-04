@@ -153,6 +153,21 @@ func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
 	return result, nil
 }
 
-// func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
+	req := GetObjectInfoRequest{
+		Action:    "get_object_transcript",
+		UserId:    dg.ApiKey,
+		ContentId: obj,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(TranscriptResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
