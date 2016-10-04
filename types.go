@@ -18,6 +18,12 @@ type ResponseError struct {
 	Error string `json:"error"`
 }
 
+type GetObjectInfoRequest struct {
+	Action    string `json:"action"`
+	UserId    string `json:"userID"`
+	ContentId string `json:"contentID"`
+}
+
 type CheckBalanceRequest struct {
 	Action string `json:"action"`
 	UserId string `json:"userID"`
@@ -26,4 +32,13 @@ type CheckBalanceRequest struct {
 type CheckBalanceResponse struct {
 	Balance float32 `json:"balance"`
 	UserId  string  `json:"userID"`
+}
+
+type CheckStatusResponse struct {
+	Status string `json:"status"`
+}
+
+type GetTagsResponse struct {
+	ContentId string   `json:"contentID"`
+	Tags      []string `json:"tags"`
 }

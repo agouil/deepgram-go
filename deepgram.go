@@ -62,11 +62,7 @@ func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 		Action: "get_balance",
 		UserId: dg.ApiKey,
 	}
-	reqJson, err := json.Marshal(req)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := makeRequest(dg.Host(), string(reqJson))
+	resp, err := makeRequest(dg.Host(), req)
 	if err != nil {
 		return nil, err
 	}
@@ -79,9 +75,24 @@ func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 	return result, nil
 }
 
-// func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
+	req := GetObjectInfoRequest{
+		Action:    "get_object_status",
+		UserId:    dg.ApiKey,
+		ContentId: obj,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(CheckStatusResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
 
 // func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
 // 	return nil, nil
@@ -107,9 +118,24 @@ func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 // 	return nil, nil
 // }
 
-// func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
+	req := GetObjectInfoRequest{
+		Action:    "get_object_tags",
+		UserId:    dg.ApiKey,
+		ContentId: obj,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(GetTagsResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
 
 // func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
 // 	return nil, nil
