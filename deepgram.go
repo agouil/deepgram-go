@@ -12,8 +12,12 @@ import (
 // Helper functions
 //
 
-func makeRequest(url, payload string) ([]byte, error) {
-	request, err := http.NewRequest("POST", url, bytes.NewBufferString(payload))
+func makeRequest(url string, payload interface{}) ([]byte, error) {
+	reqJson, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(reqJson))
 	request.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
