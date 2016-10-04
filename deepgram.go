@@ -62,11 +62,11 @@ func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) 
 	return nil, nil
 }
 
-func (dg *Deepgram) Query(obj string, query string, options *QueryRequestParameters) (*QueryResponse, error) {
+func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
 	return nil, nil
 }
 
-func (dg *Deepgram) GroupSearch(query string, tag string) (*GroupSearchResponse, error) {
+func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
 	return nil, nil
 }
 
@@ -74,7 +74,7 @@ func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParamete
 	return nil, nil
 }
 
-func (dg *Deepgram) Tag(obj string, tag string) (*TagResponse, error) {
+func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
 	return nil, nil
 }
 
