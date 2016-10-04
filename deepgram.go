@@ -11,7 +11,7 @@ import (
 // Helper functions
 //
 
-func makeRequest(url string, payload string) (string, error) {
+func makeRequest(url, payload string) (string, error) {
 	request, err := http.NewRequest("POST", url, bytes.NewBufferString(payload))
 	request.Header.Set("Content-Type", "application/json")
 
