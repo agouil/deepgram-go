@@ -3,6 +3,7 @@ package deepgram
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 )
@@ -11,14 +12,14 @@ import (
 // Helper functions
 //
 
-func makeRequest(url, payload string) (string, error) {
+func makeRequest(url, payload string) ([]byte, error) {
 	request, err := http.NewRequest("POST", url, bytes.NewBufferString(payload))
 	request.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	//TODO: check the response code first and if OK then continue
@@ -27,15 +28,21 @@ func makeRequest(url, payload string) (string, error) {
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-
-	return string(body), nil
+	return body, nil
 }
 
-func parseResponse(response string, t interface{}) error {
-	jsonDecoder := json.NewDecoder(bytes.NewBufferString(response))
-	err := jsonDecoder.Decode(t)
+func parseResponse(response []byte, t interface{}) error {
+	respErr := new(ResponseError)
+	err := json.Unmarshal(response, respErr)
+	if err != nil {
+		return err
+	}
+	if respErr.Error != "" {
+		return errors.New(respErr.Error)
+	}
+	err = json.Unmarshal(response, t)
 	if err != nil {
 		return err
 	}
@@ -47,41 +54,59 @@ func parseResponse(response string, t interface{}) error {
 //
 
 func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
-	return nil, nil
+	req := CheckBalanceRequest{
+		Action: "get_balance",
+		UserId: dg.ApiKey,
+	}
+	reqJson, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := makeRequest(dg.Host(), string(reqJson))
+	if err != nil {
+		return nil, err
+	}
+	result := new(CheckBalanceResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParameters) (*ParallelSearchResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParameters) (*ParallelSearchResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
+// 	return nil, nil
+// }
 
-func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
-	return nil, nil
-}
+// func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
+// 	return nil, nil
+// }
