@@ -38,6 +38,26 @@ type CheckStatusResponse struct {
 	Status string `json:"status"`
 }
 
+type UploadRequest struct {
+	Action  string   `json:"action"`
+	UserId  string   `json:"userID"`
+	DataUrl string   `json:"data_url"`
+	Tags    []string `json:"tags"`
+}
+
+type UploadResponse struct {
+	ContentId string `json:"contentID"`
+}
+type UploadListRequest struct {
+	Action  string   `json:"action"`
+	UserId  string   `json:"userID"`
+	DataUrl []string `json:"data_url"`
+}
+
+type UploadListResponse struct {
+	ContentId []string `json:"contentID"`
+}
+
 type TagRequest struct {
 	Action    string `json:"action"`
 	UserId    string `json:"userID"`

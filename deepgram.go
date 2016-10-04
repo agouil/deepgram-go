@@ -94,13 +94,44 @@ func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
 	return result, nil
 }
 
-// func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
+	req := UploadRequest{
+		Action:  "index_content",
+		UserId:  dg.ApiKey,
+		DataUrl: mediaUrl,
+		Tags:    tags,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(UploadResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
 
-// func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
-// 	return nil, nil
-// }
+	return result, nil
+}
+
+func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
+	req := UploadListRequest{
+		Action:  "index_content_list",
+		UserId:  dg.ApiKey,
+		DataUrl: mediaUrls,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(UploadListResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
 
 // func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
 // 	return nil, nil
