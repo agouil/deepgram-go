@@ -114,9 +114,25 @@ func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
 // 	return nil, nil
 // }
 
-// func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
+	req := TagRequest{
+		Action:    "tag_object",
+		UserId:    dg.ApiKey,
+		ContentId: obj,
+		Tag:       tag,
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(TagResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
 
 func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
 	req := GetObjectInfoRequest{
