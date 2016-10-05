@@ -20,7 +20,7 @@ func makeRequest(url string, payload interface{}) ([]byte, error) {
 	request, err := http.NewRequest("POST", url, bytes.NewBuffer(reqJson))
 	request.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := new(http.Client)
 	response, err := client.Do(request)
 	if err != nil {
 		return nil, err
