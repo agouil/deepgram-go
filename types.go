@@ -24,6 +24,15 @@ type GetObjectInfoRequest struct {
 	ContentId string `json:"contentID"`
 }
 
+type FilterParameters struct {
+	Nmax int32   `json:"Nmax"`
+	Pmin float32 `json:"Pmin"`
+}
+
+type GroupFilterParameters struct {
+	Nmax int32 `json:"Nmax"`
+}
+
 type CheckBalanceRequest struct {
 	Action string `json:"action"`
 	UserId string `json:"userID"`
@@ -78,4 +87,75 @@ type TranscriptResponse struct {
 	ContentId           string    `json:"contentID"`
 	Paragraphs          []string  `json:"paragraphs"`
 	ParagraphStartTimes []float32 `json:"paragraphStartTimes"`
+}
+
+type QueryRequestParameters struct {
+	Snippet *bool
+	Nmax    *int32
+	Pmin    *float32
+	Sort    *string
+}
+
+type QuerySearchRequest struct {
+	Action    string           `json:"action"`
+	UserId    string           `json:"userID"`
+	ContentId string           `json:"contentID"`
+	Query     string           `json:"query"`
+	Sort      string           `json:"sort"`
+	Snippet   bool             `json:"snippet"`
+	Filter    FilterParameters `json:"filter"`
+}
+
+type QueryResponse struct {
+	Snippet   []string  `json:"snippet"`
+	StartTime []float32 `json:"startTime"`
+	EndTime   []float32 `json:"endTime"`
+	P         []float32 `json:"P"`
+	N         []int32   `json:"N"`
+}
+
+type GroupSearchRequest struct {
+	Action string `json:"action"`
+	UserId string `json:"userID"`
+	Tag    string `json:"tag"`
+	Query  string `json:"query"`
+}
+
+type GroupSearchResponse struct {
+	ContentId []string  `json:"contentID"`
+	P         []float32 `json:"P"`
+	N         []int32   `json:"N"`
+}
+
+type ParallelSearchParameters struct {
+	Snippet    *bool
+	Tag        *string
+	GroupNmax  *int32
+	ObjectNmax *int32
+	ObjectPmin *float32
+	Sort       *string
+}
+
+type ParallelSearchRequest struct {
+	Action       string                `json:"action"`
+	UserId       string                `json:"userID"`
+	Query        string                `json:"query"`
+	Tag          string                `json:"tag"`
+	GroupFilter  GroupFilterParameters `json:"group_filter"`
+	ObjectFilter FilterParameters      `json:"object_filter"`
+	Snippet      bool                  `json:"snippet"`
+	Sort         string                `json:"sort"`
+}
+
+type ObjectResult struct {
+	ContentId string    `json:"contentID"`
+	Snippet   []string  `json:"snippet"`
+	StartTime []float32 `json:"startTime"`
+	EndTime   []float32 `json:"endTime"`
+	N         []int32   `json:"N"`
+	P         []float32 `json:"P"`
+}
+
+type ParallelSearchResponse struct {
+	ObjectResult []ObjectResult `json:"object_result"`
 }

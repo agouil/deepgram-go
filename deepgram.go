@@ -133,17 +133,126 @@ func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) 
 	return result, nil
 }
 
-// func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
+	if options == nil {
+		options = new(QueryRequestParameters)
+	}
+	if options.Snippet == nil {
+		snippet := true
+		options.Snippet = &snippet
+	}
+	if options.Nmax == nil {
+		var nmax int32 = 10
+		options.Nmax = &nmax
+	}
+	if options.Pmin == nil {
+		var pmin float32 = 0.55
+		options.Pmin = &pmin
+	}
+	if options.Sort == nil {
+		sort := "time"
+		options.Sort = &sort
+	}
+	req := QuerySearchRequest{
+		Action:    "object_search",
+		UserId:    dg.ApiKey,
+		ContentId: obj,
+		Query:     query,
+		Sort:      *options.Sort,
+		Snippet:   *options.Snippet,
+		Filter: FilterParameters{
+			Nmax: *options.Nmax,
+			Pmin: *options.Pmin,
+		},
+	}
+	resp, err := makeRequest(dg.Host(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(QueryResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
 
-// func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
-// 	return nil, nil
-// }
+	return result, nil
+}
 
-// func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParameters) (*ParallelSearchResponse, error) {
-// 	return nil, nil
-// }
+func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
+	req := GroupSearchRequest{
+		Action: "group_search",
+		UserId: dg.ApiKey,
+		Tag:    tag,
+		Query:  query,
+	}
+	resp, err := makeRequest(dg.GroupSearchHost(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(GroupSearchResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParameters) (*ParallelSearchResponse, error) {
+	if options == nil {
+		options = new(ParallelSearchParameters)
+	}
+	if options.Snippet == nil {
+		snippet := true
+		options.Snippet = &snippet
+	}
+	if options.Tag == nil {
+		tag := ""
+		options.Tag = &tag
+	}
+	if options.GroupNmax == nil {
+		var nmax int32 = 10
+		options.GroupNmax = &nmax
+	}
+	if options.ObjectNmax == nil {
+		var nmax int32 = 10
+		options.ObjectNmax = &nmax
+	}
+	if options.ObjectPmin == nil {
+		var pmin float32 = 0.55
+		options.ObjectPmin = &pmin
+	}
+	if options.Sort == nil {
+		sort := "time"
+		options.Sort = &sort
+	}
+	req := ParallelSearchRequest{
+		Action:  "parallel_search",
+		UserId:  dg.ApiKey,
+		Query:   query,
+		Tag:     *options.Tag,
+		Sort:    *options.Sort,
+		Snippet: *options.Snippet,
+		GroupFilter: GroupFilterParameters{
+			Nmax: *options.GroupNmax,
+		},
+		ObjectFilter: FilterParameters{
+			Nmax: *options.ObjectNmax,
+			Pmin: *options.ObjectPmin,
+		},
+	}
+	resp, err := makeRequest(dg.GroupSearchHost(), req)
+	if err != nil {
+		return nil, err
+	}
+	result := new(ParallelSearchResponse)
+	err = parseResponse(resp, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
 
 func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
 	req := TagRequest{
