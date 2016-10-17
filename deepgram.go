@@ -12,6 +12,8 @@ import (
 // Helper functions
 //
 
+// makeRequest performs an HTTP request to the remote API and returns
+// the response body and any errors that might have occured
 func makeRequest(url string, payload interface{}) ([]byte, error) {
 	reqJson, err := json.Marshal(payload)
 	if err != nil {
@@ -37,6 +39,7 @@ func makeRequest(url string, payload interface{}) ([]byte, error) {
 	return body, nil
 }
 
+// parseResponse parses a JSON object
 func parseResponse(response []byte, t interface{}) error {
 	respErr := new(ResponseError)
 	err := json.Unmarshal(response, respErr)
@@ -57,6 +60,7 @@ func parseResponse(response []byte, t interface{}) error {
 // API Methods
 //
 
+// CheckBalance returns the user's balace
 func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 	req := checkBalanceRequest{
 		Action: "get_balance",
@@ -75,6 +79,7 @@ func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 	return result, nil
 }
 
+// CheckStatus returns the status of an object
 func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
 	req := getObjectInfoRequest{
 		Action:    "get_object_status",
@@ -94,6 +99,7 @@ func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
 	return result, nil
 }
 
+// Upload uploads a new object to the remote API
 func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
 	req := uploadRequest{
 		Action:  "index_content",
@@ -114,6 +120,7 @@ func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, err
 	return result, nil
 }
 
+// UploadList uploads a list of objects to the remote API
 func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
 	req := uploadListRequest{
 		Action:  "index_content_list",
@@ -133,6 +140,7 @@ func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) 
 	return result, nil
 }
 
+// Query returns all matched snippets in a given object based on the user defined parameters
 func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*QueryResponse, error) {
 	if options == nil {
 		options = new(QueryRequestParameters)
@@ -178,6 +186,7 @@ func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*
 	return result, nil
 }
 
+// GroupSearch returns the matched object IDs based on the user defined parameters
 func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
 	req := groupSearchRequest{
 		Action: "group_search",
@@ -198,6 +207,8 @@ func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error)
 	return result, nil
 }
 
+// ParallelSearch returns multiple results together with the snippets of any matched
+// objects based on the user defined parameters
 func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParameters) (*ParallelSearchResponse, error) {
 	if options == nil {
 		options = new(ParallelSearchParameters)
@@ -254,6 +265,7 @@ func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParamete
 	return result, nil
 }
 
+// Tag adds a tag to an existing object
 func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
 	req := tagRequest{
 		Action:    "tag_object",
@@ -274,6 +286,7 @@ func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
 	return result, nil
 }
 
+// GetTags returns the tags of a specific object
 func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
 	req := getObjectInfoRequest{
 		Action:    "get_object_tags",
@@ -293,6 +306,7 @@ func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
 	return result, nil
 }
 
+// Transcript returns the transcript of an object
 func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
 	req := getObjectInfoRequest{
 		Action:    "get_object_transcript",
