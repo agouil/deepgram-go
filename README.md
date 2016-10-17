@@ -13,7 +13,7 @@ go get github.com/agouil/deepgram-go
 There is an online reference to the documentation on the [GoDoc site](https://godoc.org/github.com/agouil/deepgram-go).
 
 ## Usage
-```golang
+```go
 package main
 
 import (
