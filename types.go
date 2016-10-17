@@ -18,7 +18,7 @@ type ResponseError struct {
 	Error string `json:"error"`
 }
 
-type GetObjectInfoRequest struct {
+type getObjectInfoRequest struct {
 	Action    string `json:"action"`
 	UserId    string `json:"userID"`
 	ContentId string `json:"contentID"`
@@ -33,7 +33,7 @@ type GroupFilterParameters struct {
 	Nmax int32 `json:"Nmax"`
 }
 
-type CheckBalanceRequest struct {
+type checkBalanceRequest struct {
 	Action string `json:"action"`
 	UserId string `json:"userID"`
 }
@@ -47,7 +47,7 @@ type CheckStatusResponse struct {
 	Status string `json:"status"`
 }
 
-type UploadRequest struct {
+type uploadRequest struct {
 	Action  string   `json:"action"`
 	UserId  string   `json:"userID"`
 	DataUrl string   `json:"data_url"`
@@ -57,7 +57,7 @@ type UploadRequest struct {
 type UploadResponse struct {
 	ContentId string `json:"contentID"`
 }
-type UploadListRequest struct {
+type uploadListRequest struct {
 	Action  string   `json:"action"`
 	UserId  string   `json:"userID"`
 	DataUrl []string `json:"data_url"`
@@ -67,7 +67,7 @@ type UploadListResponse struct {
 	ContentId []string `json:"contentID"`
 }
 
-type TagRequest struct {
+type tagRequest struct {
 	Action    string `json:"action"`
 	UserId    string `json:"userID"`
 	ContentId string `json:"contentID"`
@@ -96,7 +96,7 @@ type QueryRequestParameters struct {
 	Sort    *string
 }
 
-type QuerySearchRequest struct {
+type querySearchRequest struct {
 	Action    string           `json:"action"`
 	UserId    string           `json:"userID"`
 	ContentId string           `json:"contentID"`
@@ -114,7 +114,7 @@ type QueryResponse struct {
 	N         []int32   `json:"N"`
 }
 
-type GroupSearchRequest struct {
+type groupSearchRequest struct {
 	Action string `json:"action"`
 	UserId string `json:"userID"`
 	Tag    string `json:"tag"`
@@ -136,7 +136,7 @@ type ParallelSearchParameters struct {
 	Sort       *string
 }
 
-type ParallelSearchRequest struct {
+type parallelSearchRequest struct {
 	Action       string                `json:"action"`
 	UserId       string                `json:"userID"`
 	Query        string                `json:"query"`

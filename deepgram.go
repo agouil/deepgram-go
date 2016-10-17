@@ -58,7 +58,7 @@ func parseResponse(response []byte, t interface{}) error {
 //
 
 func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
-	req := CheckBalanceRequest{
+	req := checkBalanceRequest{
 		Action: "get_balance",
 		UserId: dg.ApiKey,
 	}
@@ -76,7 +76,7 @@ func (dg *Deepgram) CheckBalance() (*CheckBalanceResponse, error) {
 }
 
 func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
-	req := GetObjectInfoRequest{
+	req := getObjectInfoRequest{
 		Action:    "get_object_status",
 		UserId:    dg.ApiKey,
 		ContentId: obj,
@@ -95,7 +95,7 @@ func (dg *Deepgram) CheckStatus(obj string) (*CheckStatusResponse, error) {
 }
 
 func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, error) {
-	req := UploadRequest{
+	req := uploadRequest{
 		Action:  "index_content",
 		UserId:  dg.ApiKey,
 		DataUrl: mediaUrl,
@@ -115,7 +115,7 @@ func (dg *Deepgram) Upload(mediaUrl string, tags []string) (*UploadResponse, err
 }
 
 func (dg *Deepgram) UploadList(mediaUrls []string) (*UploadListResponse, error) {
-	req := UploadListRequest{
+	req := uploadListRequest{
 		Action:  "index_content_list",
 		UserId:  dg.ApiKey,
 		DataUrl: mediaUrls,
@@ -153,7 +153,7 @@ func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*
 		sort := "time"
 		options.Sort = &sort
 	}
-	req := QuerySearchRequest{
+	req := querySearchRequest{
 		Action:    "object_search",
 		UserId:    dg.ApiKey,
 		ContentId: obj,
@@ -179,7 +179,7 @@ func (dg *Deepgram) Query(obj, query string, options *QueryRequestParameters) (*
 }
 
 func (dg *Deepgram) GroupSearch(query, tag string) (*GroupSearchResponse, error) {
-	req := GroupSearchRequest{
+	req := groupSearchRequest{
 		Action: "group_search",
 		UserId: dg.ApiKey,
 		Tag:    tag,
@@ -226,7 +226,7 @@ func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParamete
 		sort := "time"
 		options.Sort = &sort
 	}
-	req := ParallelSearchRequest{
+	req := parallelSearchRequest{
 		Action:  "parallel_search",
 		UserId:  dg.ApiKey,
 		Query:   query,
@@ -255,7 +255,7 @@ func (dg *Deepgram) ParallelSearch(query string, options *ParallelSearchParamete
 }
 
 func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
-	req := TagRequest{
+	req := tagRequest{
 		Action:    "tag_object",
 		UserId:    dg.ApiKey,
 		ContentId: obj,
@@ -275,7 +275,7 @@ func (dg *Deepgram) Tag(obj, tag string) (*TagResponse, error) {
 }
 
 func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
-	req := GetObjectInfoRequest{
+	req := getObjectInfoRequest{
 		Action:    "get_object_tags",
 		UserId:    dg.ApiKey,
 		ContentId: obj,
@@ -294,7 +294,7 @@ func (dg *Deepgram) GetTags(obj string) (*GetTagsResponse, error) {
 }
 
 func (dg *Deepgram) Transcript(obj string) (*TranscriptResponse, error) {
-	req := GetObjectInfoRequest{
+	req := getObjectInfoRequest{
 		Action:    "get_object_transcript",
 		UserId:    dg.ApiKey,
 		ContentId: obj,

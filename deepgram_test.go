@@ -39,7 +39,7 @@ func TestMakeRequestSuccess(t *testing.T) {
 	testServer := httptest.NewServer(handler)
 	defer testServer.Close()
 
-	payload := CheckBalanceRequest{
+	payload := checkBalanceRequest{
 		Action: "get_balance",
 		UserId: dg.ApiKey,
 	}
@@ -62,7 +62,7 @@ func TestMakeRequestNilResponse(t *testing.T) {
 	testServer := httptest.NewServer(handler)
 	defer testServer.Close()
 
-	payload := CheckBalanceRequest{
+	payload := checkBalanceRequest{
 		Action: "get_balance",
 		UserId: dg.ApiKey,
 	}
